@@ -8,6 +8,7 @@ autoIncrement.initialize( mainDB );
 var PorterRequest = new Schema({
     //jobId: { type: Number, required: true },      // auto increment handles this
     arrivalTime: { type: Date, required: true },
+    unloadCompleteTime: { type: Date, required: true },
     amountOffered: { type: Number, required: true },
     creator: { type: String, required: true },
     location : {
@@ -31,9 +32,14 @@ PorterRequest.virtual('arrivalTimestamp').get(function() {
     return this.arrivalTime.getTime();
 });
 
+PorterRequest.virtual('unloadCompleteTimestamp').get(function() {
+    return this.unloadCompleteTime.getTime();
+});
+
 PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
 
     var arrivalTimestamp = params.arrivalTimestamp;
+    var unloadCompleteTimestamp = params.unloadCompleteTimestamp;
     var amountOffered = params.amountOffered;
     var creator = params.creator;
     var lat = params.lat;
@@ -48,6 +54,12 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
         return;
     }
     var arrivalTime = new Date( arrivalTimestamp );
+
+    if( isNaN( parseInt( unloadCompleteTimestamp ) ) ){
+        cb( "Invalid timestamp for arrival time" );
+        return;
+    }
+    var unloadCompleteTime = new Date( unloadCompleteTimestamp );
 
     if( !creator || creator.length == 0 ){
         cb( "No creator found" );
@@ -73,6 +85,7 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
 
     this.create({
         arrivalTime: arrivalTime,
+        unloadCompleteTime: unloadCompleteTime,
         amountOffered: amountOffered,
         creator: creator,
         location : [ long, lat ], // longitude, latitude

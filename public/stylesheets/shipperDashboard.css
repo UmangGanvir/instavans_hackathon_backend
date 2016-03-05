@@ -27,6 +27,11 @@ header {
     margin: 10px;
 }
 
+.request-attr-container {
+    display: inline-block;
+    width: 100%;
+}
+
 .request-attr-name {
     font-weight: 700;
 }

@@ -17,7 +17,7 @@ socket.on('connect', function( ){
 });
 
 socket.on('requestCreate', function( req ){
-    console.log("req: ", req);
+    console.log("requestCreate: ", req);
     updateRequest( req );
 });
 
@@ -44,7 +44,7 @@ $(document).ready(function(){
 
     $('.clockpicker').clockpicker();
 
-    $('#arrivalDay').datepicker({
+    $('.date-picker-cstm').datepicker({
         altFormat: '@',
         dateFormat: "dd-mm-yy"
     });
@@ -99,12 +99,23 @@ $(document).ready(function(){
 
         var arrivalSeconds = getTimeInSecs( $('#arrivalDaySeconds').val() );
 
+        var unloadCompleteDay = parseDate( $('#unloadCompleteDay').val() );
+        if( unloadCompleteDay === "invalid date string" )
+            unloadCompleteDay = null;
+
+        var unloadCompleteDaySeconds = getTimeInSecs( $('#unloadCompleteDaySeconds').val() );
+
         var amountOffered = $('#amountOffered').val();
         var portersRequired = $('#portersRequired').val();
 
 
         if( !arrivalDay ){
             raiseError("No arrival day mentioned");
+            return;
+        }
+
+        if( !unloadCompleteDay ){
+            raiseError("No Unload Complete day mentioned");
             return;
         }
 
@@ -135,8 +146,11 @@ $(document).ready(function(){
 
         var arrivalTime = arrivalDay;
         arrivalTime.setSeconds( arrivalSeconds );
-
         var arrivalTimestamp = arrivalTime.getTime();
+
+        var unloadCompleteTime = unloadCompleteDay;
+        unloadCompleteTime.setSeconds( unloadCompleteDaySeconds );
+        var unloadCompleteTimestamp = unloadCompleteTime.getTime();
 
         $.ajax({
             url: '/api/porter-request',
@@ -145,6 +159,7 @@ $(document).ready(function(){
             contentType: "application/json",
             data: JSON.stringify({
                 arrivalTimestamp: arrivalTimestamp,
+                unloadCompleteTimestamp: unloadCompleteTimestamp,
                 amountOffered: parseInt( amountOffered ),
                 creator: creator,
                 lat: lat,
@@ -216,9 +231,13 @@ function refreshRequestsForShipper( shipperId ){
                 $('.request-container').remove();
                 var requests = response.result;
                 requests.forEach(function( request ){
+                    console.log("request: ", request);
                     request.arrivalTimeString =
                         (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
                         (new Date(request.arrivalTimestamp)).toDateString();
+                    request.unloadCompleteTimeString =
+                        (new Date(request.unloadCompleteTimestamp)).toLocaleTimeString() + " - " +
+                        (new Date(request.unloadCompleteTimestamp)).toDateString();
                     $('#requests_container').append( requestTemplate(request) );
                 });
 

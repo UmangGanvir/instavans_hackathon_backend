@@ -7,8 +7,12 @@
 
                 <div id="create_request_modal_container">
 
-                    <h3>Create a shipper request -</h3>
-                    <hr/>
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Create a shipper request</h4>
+                    </div>
+
+                    <br/>
 
                     <div class="form-group">
                         <label for="arrivalDay">Select Arrival Day : </label>
@@ -76,17 +80,20 @@
     <div class="row">
         <header>
 
-            <div class="col-xs-12">
+            <div class="col-sm-4 col-xs-12 text-center">
                 <div class="header-head">
                     <a href="/">Shipper Dashboard</a>
                 </div>
+            </div>
 
-                <div class="header-navigation pull-right">
+            <div class="col-sm-8 col-xs-12 text-center">
+
+                <div class="header-navigation">
 
                     <form class="form-inline" onsubmit="return false;">
                         <div class="form-group">
 
-                            <label for="name">Select Shipper : </label>&nbsp;&nbsp;&nbsp;
+                            <label for="creator">Select Shipper : </label>&nbsp;&nbsp;&nbsp;
 
                             <select id="creator" class="form-control">
                                 <option value="0">Please select a Shipper</option>
@@ -101,6 +108,8 @@
 
                 </div>
             </div>
+
+            <div class="clear"></div>
 
         </header>
     </div>

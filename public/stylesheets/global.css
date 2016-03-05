@@ -1,0 +1,12 @@
+.header-navigation form div > * {
+    padding: 10px;
+}
+
+#creator {
+    width: 200px;
+    display: inline-block;
+}
+
+.clear {
+    clear: both;
+}

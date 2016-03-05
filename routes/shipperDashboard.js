@@ -21,6 +21,7 @@ router.get('/', function( req, res, next ){
         "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js",
         "/javascripts/utils/bloodhound.min.js",
         "/javascripts/utils/typeahead.jquery.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js",
         "/javascripts/shipperDashboard.js"
     ]
   });

@@ -22,6 +22,7 @@ router.post('/shipper', function( req, res, next ){
       return;
     }
 
+    console.log("docs: ", docs);
     Utils.apiResponse( res, true, docs, 200 );
 
   });
@@ -124,16 +125,18 @@ router.put('/', function( req, res, next ){
   var creator = params.post.creator;
   var lat = params.post.lat;
   var long = params.post.long;
+  var locationText = params.post.locationText;
   var portersRequired = params.post.portersRequired;
 
   // TODO check if shipper created this request
 
-  PorterRequestModel.createPorterRequestCRUD( {
+  PorterRequestModel.createPorterRequestCRUD({
     arrivalTimestamp: arrivalTimestamp,
     amountOffered: amountOffered,
     creator: creator,
     lat: lat,
     long: long,
+    locationText: locationText,
     portersRequired: portersRequired
   }, function( err, doc ){
 

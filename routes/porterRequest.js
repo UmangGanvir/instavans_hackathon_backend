@@ -77,6 +77,9 @@ router.post('/porter/accept', function( req, res, next ){
     if( !isNaN( parseInt( docModified ) ) ){
       docModified = parseInt( docModified );
       if( docModified > 0 ){
+        if( socketClient.requestNamespace ){
+          socket.requestNamespace.emit('requestAccept', { jobId: jobId });
+        }
         Utils.apiResponse( res, true, { requestAccepted: true }, 200 );
         return;
       }
@@ -114,9 +117,8 @@ router.put('/', function( req, res, next ){
       return;
     }
 
-
     if( socketClient.requestNamespace ){
-      socket.requestNamespace.emit('request', doc);
+      socket.requestNamespace.emit('requestCreate', doc);
     }
 
     Utils.apiResponse( res, true, doc, 200 );

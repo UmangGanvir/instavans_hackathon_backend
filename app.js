@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
+var socketClient = require('./clients/socketClient.js');
 
 // Database setup
 require('./models');
@@ -22,6 +23,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Initialize socket on app
+socketClient.initializeSocket( app );
 
 // Handle routes
 routes( app );

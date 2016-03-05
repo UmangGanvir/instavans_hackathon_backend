@@ -63,15 +63,13 @@ router.post('/porter/finished', function( req, res, next ){
 
   var userId = params.post.userId;
 
-  PorterRequestModel.fetchPorterRequestsForPorter( {
-    lat: lat,
-    long: long,
-    radius: radius
+  PorterRequestModel.fetchPorterFulfilledRequestsForPorter( {
+    userId: userId
   }, function( err, docs ){
 
     if( err ){
         console.log("Err: ", err);
-        Utils.apiResponse( res, false, "Error retrieving this requests for porters", 500 );
+        Utils.apiResponse( res, false, "Error retrieving fulfilled requests for porter", 500 );
         return;
     }
 

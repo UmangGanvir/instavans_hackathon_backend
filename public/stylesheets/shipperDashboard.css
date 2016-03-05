@@ -27,6 +27,10 @@ header {
     margin: 10px;
 }
 
+.request-attr-name {
+    font-weight: 700;
+}
+
 .request-porter-required {
     padding: 5px;
     border-radius: 10px;

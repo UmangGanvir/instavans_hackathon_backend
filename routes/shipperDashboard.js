@@ -22,6 +22,7 @@ router.get('/', function( req, res, next ){
         "/javascripts/utils/bloodhound.min.js",
         "/javascripts/utils/typeahead.jquery.js",
         "https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js",
+        "https://cdn.socket.io/socket.io-1.4.5.js",
         "/javascripts/shipperDashboard.js"
     ]
   });

@@ -9,7 +9,7 @@ SocketClient.prototype.initializeSocket = function( app ){
     var io  = require('socket.io');
     var server = io.listen(4000);
     server.sockets.on("connection",function(){
-        console.log("COLLNN");
+        //console.log("COLLNN");
     });
 
 //

@@ -8,9 +8,25 @@ function getTimeInSecs(clockStr){
     return secs;
 }
 
-var socket = io.connect( "http://localhost" + '/' + "request", {
+var socket = io.connect( "http://localhost:4000" + '/' + "request", {
     path: '/socket.io'
 });
+
+socket.on('connect', function( ){
+    console.log("connected...........");
+});
+
+socket.on('requestCreate', function( req ){
+    console.log("req: ", req);
+    updateRequest( req );
+});
+
+function updateRequest( req ){
+    if( req ){
+        var container = $('.request-container[data-job-id="' + req.jobId + '"]');
+        container.find('.request-porter-required').text( req.portersRequired );
+    }
+}
 
 var requestTemplate;
 
@@ -19,34 +35,11 @@ $(document).ready(function(){
     //$('#create_request_modal').modal('show');
 
     requestTemplate = Handlebars.compile( $('#request_container_hbs').html().replace(/[\u200B]/g, '') );
+
     $('#creator').on('change', function(){
+
         creator = this.value;
-        $.ajax({
-            url: '/api/porter-request/shipper',
-            type: 'POST',
-            dataType: 'json',
-            contentType: "application/json",
-            data: JSON.stringify({
-                userId: this.value
-            }),
-            success: function(response) {
-                //console.log("resp: ", response);
-                if( response.status == "success" ){
-
-                    $('.request-container').remove();
-                    var requests = response.result;
-                    requests.forEach(function( request ){
-                        request.arrivalTimeString =
-                            (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
-                            (new Date(request.arrivalTimestamp)).toDateString();
-                        $('#requests_container').append( requestTemplate(request) );
-                    });
-
-                } else {
-                    console.log("Err: ", response.message);
-                }
-            }
-        });
+        refreshRequestsForShipper( creator );
     });
 
     $('.clockpicker').clockpicker();
@@ -171,6 +164,9 @@ $(document).ready(function(){
                         $('#amountOffered').val('');
                         $('#portersRequired').val('');
                         $('#location_select_input').val('');
+
+                        // Refresh current requests on UI
+                        refreshRequestsForShipper( creator );
                     });
                 } else {
                     raiseError( response.message );
@@ -196,4 +192,39 @@ function raiseSuccess( cb ){
         if(cb && typeof cb == 'function')
             cb();
     }, 3000);
+}
+
+function refreshRequestsForShipper( shipperId ){
+
+    if( !shipperId || shipperId.length == 0 ){
+        //console.log("No Shipper Id passed for refresh");
+        return;
+    }
+
+    $.ajax({
+        url: '/api/porter-request/shipper',
+        type: 'POST',
+        dataType: 'json',
+        contentType: "application/json",
+        data: JSON.stringify({
+            userId: shipperId
+        }),
+        success: function(response) {
+            //console.log("resp: ", response);
+            if( response.status == "success" ){
+
+                $('.request-container').remove();
+                var requests = response.result;
+                requests.forEach(function( request ){
+                    request.arrivalTimeString =
+                        (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
+                        (new Date(request.arrivalTimestamp)).toDateString();
+                    $('#requests_container').append( requestTemplate(request) );
+                });
+
+            } else {
+                console.log("Err: ", response.message);
+            }
+        }
+    });
 }

@@ -16,8 +16,8 @@ var allRoutes = function(app){
   // Services
 
   // Web server
-  app.get('/abc.html', function (req, res) {
-    res.sendFile('abc.html', htmlDirOptions);
+  app.get('/entry.html', function (req, res) {
+    res.sendFile('entry.html', htmlDirOptions);
   });
 };
 

@@ -16,7 +16,7 @@ var PorterRequest = new Schema({
         required: true
     }, // longitude, latitude
     portersRequired: { type: Number, required: true },
-    portersFulfilled: { type: [String], default: [], required: [] }         // Porter User Ids
+    portersFulfilled: { type: [String], default: [] }         // Porter User Ids
 });
 
 PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
@@ -56,6 +56,7 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     this.create({
         reachTime: reachTime,
         amountOffered: amountOffered,
+        creator: creator,
         location : [ long, lat ], // longitude, latitude
         portersRequired: portersRequired
     }, cb);

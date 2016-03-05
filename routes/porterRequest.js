@@ -119,29 +119,32 @@ router.put('/', function( req, res, next ){
   var params = Utils.retrieveRequestParams( req );
   console.log("Add porter Request params: ", params);
 
-  var reachTimestamp = params.reachTimestamp;
-  var amountOffered = params.amountOffered;
-  var lat = params.lat;
-  var long = params.long;
-  var portersRequired = params.portersRequired;
+  var reachTimestamp = params.post.reachTimestamp;
+  var amountOffered = params.post.amountOffered;
+  var creator = params.post.creator;
+  var lat = params.post.lat;
+  var long = params.post.long;
+  var portersRequired = params.post.portersRequired;
 
   // TODO check if shipper created this request
 
   PorterRequestModel.createPorterRequestCRUD( {
     reachTimestamp: reachTimestamp,
     amountOffered: amountOffered,
+    creator: creator,
     lat: lat,
     long: long,
     portersRequired: portersRequired
   }, function( err, doc ){
 
     if( err ){
+      console.log("err: ", err);
       Utils.apiResponse( res, false, "Error creating this request for shipper", 500 );
       return;
     }
 
     if( socketClient.requestNamespace ){
-      socket.requestNamespace.emit('requestCreate', doc);
+      socketClient.requestNamespace.emit('requestCreate', doc);
     }
 
     Utils.apiResponse( res, true, doc, 200 );

@@ -6,6 +6,7 @@ var htmlDirOptions = { root: path.join(__dirname, '../public/html') };
 
 var user = require('./user.js');
 var porterRequest = require('./porterRequest.js');
+var shipperDashboard = require('./shipperDashboard.js');
 
 var allRoutes = function(app){
 
@@ -16,9 +17,8 @@ var allRoutes = function(app){
   // Services
 
   // Web server
-  app.get('/entry.html', function (req, res) {
-    res.sendFile('entry.html', htmlDirOptions);
-  });
+  app.use( '/web/shipper-dashboard', shipperDashboard );
+
 };
 
 module.exports = allRoutes;

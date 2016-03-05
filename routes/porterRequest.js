@@ -119,7 +119,7 @@ router.put('/', function( req, res, next ){
   var params = Utils.retrieveRequestParams( req );
   console.log("Add porter Request params: ", params);
 
-  var reachTimestamp = params.post.reachTimestamp;
+  var arrivalTimestamp = params.post.arrivalTimestamp;
   var amountOffered = params.post.amountOffered;
   var creator = params.post.creator;
   var lat = params.post.lat;
@@ -129,7 +129,7 @@ router.put('/', function( req, res, next ){
   // TODO check if shipper created this request
 
   PorterRequestModel.createPorterRequestCRUD( {
-    reachTimestamp: reachTimestamp,
+    arrivalTimestamp: arrivalTimestamp,
     amountOffered: amountOffered,
     creator: creator,
     lat: lat,

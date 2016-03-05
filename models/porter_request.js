@@ -7,7 +7,7 @@ autoIncrement.initialize( mainDB );
 
 var PorterRequest = new Schema({
     //jobId: { type: Number, required: true },      // auto increment handles this
-    reachTime: { type: Date, required: true },
+    arrivalTime: { type: Date, required: true },
     amountOffered: { type: Number, required: true },
     creator: { type: String, required: true },
     location : {
@@ -19,9 +19,13 @@ var PorterRequest = new Schema({
     portersFulfilled: { type: [String], default: [] }         // Porter User Ids
 });
 
+PorterRequest.virtual('arrivalTimestamp').get(function() {
+    return this.arrivalTime.getTime();
+});
+
 PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
 
-    var reachTimestamp = params.reachTimestamp;
+    var arrivalTimestamp = params.arrivalTimestamp;
     var amountOffered = params.amountOffered;
     var creator = params.creator;
     var lat = params.lat;
@@ -30,11 +34,11 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     // Default portersFulfilled
 
     // Validity checks
-    if( isNaN( parseInt( reachTimestamp ) ) ){
-        cb( "Invalid timestamp for reach time" );
+    if( isNaN( parseInt( arrivalTimestamp ) ) ){
+        cb( "Invalid timestamp for arrival time" );
         return;
     }
-    var reachTime = new Date( reachTimestamp );
+    var arrivalTime = new Date( arrivalTimestamp );
 
     if( !creator || creator.length == 0 ){
         cb( "No creator found" );
@@ -54,7 +58,7 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     long = parseInt( long );
 
     this.create({
-        reachTime: reachTime,
+        arrivalTime: arrivalTime,
         amountOffered: amountOffered,
         creator: creator,
         location : [ long, lat ], // longitude, latitude
@@ -114,7 +118,7 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         {
             $match: {
                 'portersRequired': { $gt : 0},
-                'reachTime' : { $gt: dateWindow, $lt: date }
+                'arrivalTime' : { $gt: dateWindow, $lt: date }
             }
         }
     ]).exec(function(e,r){

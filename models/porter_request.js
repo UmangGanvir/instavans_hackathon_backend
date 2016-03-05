@@ -92,19 +92,19 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         cb( "Invalid latitude value" );
         return;
     }
-    lat = parseInt( lat );
+    lat = Number( lat );
 
     if( !long || isNaN( parseInt( long ) ) ){
         cb( "Invalid Longitude value" );
         return;
     }
-    long = parseInt( long );
+    long = Number( long );
 
     radius = !isNaN( parseInt( radius ) ) ? parseInt( radius ) : 10000 ; // in Meters
 
     var date = new Date();
     var dateWindow = new Date();
-    dateWindow.setHours( date.getHours() - 2 );     // 2 hour window
+    dateWindow.setHours( date.getHours() + 2 );     // 2 hour window
 
     this.aggregate([
         {
@@ -117,8 +117,8 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         },
         {
             $match: {
-                'portersRequired': { $gt : 0},
-                'arrivalTime' : { $gt: dateWindow, $lt: date }
+                'portersRequired': { $gt: 0 },
+                'arrivalTime' : { $gt: date, $lt: dateWindow }
             }
         }
     ]).exec(function(e,r){

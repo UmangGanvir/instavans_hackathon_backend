@@ -16,15 +16,19 @@ socket.on('connect', function( ){
     console.log("connected...........");
 });
 
-socket.on('requestCreate', function( req ){
-    console.log("requestCreate: ", req);
+socket.on('requestAccept', function( req ){
+    //console.log("requestAccept: ", req);
     updateRequest( req );
 });
 
 function updateRequest( req ){
     if( req ){
         var container = $('.request-container[data-job-id="' + req.jobId + '"]');
-        container.find('.request-porter-required').text( req.portersRequired );
+        var numb = parseInt( container.find('.request-porter-required').text() );
+        container.find('.request-porter-required').text( numb - 1 ).css({ 'background-color': 'green' });
+        setTimeout(function(){
+            container.find('.request-porter-required').css({ 'background-color': '#2A303C' });
+        }, 2000);
     }
 }
 

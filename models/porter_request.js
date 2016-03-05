@@ -23,6 +23,7 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
 
     var reachTimestamp = params.reachTimestamp;
     var amountOffered = params.amountOffered;
+    var creator = params.creator;
     var lat = params.lat;
     var long = params.long;
     var portersRequired = params.portersRequired;
@@ -34,6 +35,11 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
         return;
     }
     var reachTime = new Date( reachTimestamp );
+
+    if( !creator || creator.length == 0 ){
+        cb( "No creator found" );
+        return;
+    }
 
     if( !lat || isNaN( parseInt( lat ) ) ){
         cb( "Invalid latitude value" );
@@ -70,6 +76,8 @@ PorterRequest.statics.fetchPorterRequestsForShipper = function( params, cb ){
 
 PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
 
+    //console.log("fetchPorterRequestsForPorter params: ", params);
+
     var lat = params.lat;
     var long = params.long;
     var radius = params.radius;
@@ -94,10 +102,6 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
     dateWindow.setHours( date.getHours() - 2 );     // 2 hour window
 
     this.aggregate([
-        { $match: {
-            'portersRequired': { $gt : 0} },
-            'reachTime' : { $gt: dateWindow, $lt: date }
-        },
         {
             $geoNear: {
                 near: { type: "Point", coordinates: [ long, lat ] },
@@ -105,8 +109,19 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
                 maxDistance: radius,
                 spherical: true
             }
+        },
+        {
+            $match: {
+                'portersRequired': { $gt : 0},
+                'reachTime' : { $gt: dateWindow, $lt: date }
+            }
         }
-    ]).exec(cb);
+    ]).exec(function(e,r){
+        //console.log("e:", e);
+        //console.log("r:", r);
+        cb(e,r);
+
+    });
 };
 
 PorterRequest.statics.fetchPorterFulfilledRequestsForPorter = function( params, cb ){

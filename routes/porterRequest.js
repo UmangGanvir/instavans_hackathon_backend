@@ -17,6 +17,7 @@ router.post('/shipper', function( req, res, next ){
   }, function( err, docs ){
 
     if( err ){
+      console.log("err: ", err);
       Utils.apiResponse( res, false, "Error retrieving requests for shipper", 500 );
       return;
     }

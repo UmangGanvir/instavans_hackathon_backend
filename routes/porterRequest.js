@@ -22,7 +22,7 @@ router.post('/shipper', function( req, res, next ){
         return;
     }
 
-    console.log("docs: ", docs);
+      console.log("RETURN",docs);
     Utils.apiResponse( res, true, docs, 200 );
 
   });
@@ -50,6 +50,7 @@ router.post('/porter', function( req, res, next ){
         return;
     }
 
+      console.log("RETURN",docs);
       Utils.apiResponse( res, true, docs, 200 );
 
   });
@@ -72,6 +73,7 @@ router.post('/porter/finished', function( req, res, next ){
         Utils.apiResponse( res, false, "Error retrieving fulfilled requests for porter", 500 );
         return;
     }
+      console.log("RETURN",docs);
 
     Utils.apiResponse( res, true, docs, 200 );
 
@@ -103,13 +105,15 @@ router.post('/porter/accept', function( req, res, next ){
       docModified = parseInt( docModified );
       if( docModified > 0 ){
         if( socketClient.requestNamespace ){
-          socket.requestNamespace.emit('requestAccept', { jobId: jobId });
+            socketClient.requestNamespace.emit('requestAccept', { jobId: jobId });
         }
+          console.log("RETURN",{ requestAccepted: true });
         Utils.apiResponse( res, true, { requestAccepted: true }, 200 );
         return;
       }
     }
 
+      console.log("RETURN",{ requestAccepted: false });
     Utils.apiResponse( res, true, { requestAccepted: false }, 200 );
 
   });
@@ -151,6 +155,7 @@ router.put('/', function( req, res, next ){
       socketClient.requestNamespace.emit('requestCreate', doc);
     }
 
+      console.log("RETURN",doc);
     Utils.apiResponse( res, true, doc, 200 );
 
   });

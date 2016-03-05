@@ -17,9 +17,9 @@ router.post('/shipper', function( req, res, next ){
   }, function( err, docs ){
 
     if( err ){
-      console.log("err: ", err);
-      Utils.apiResponse( res, false, "Error retrieving requests for shipper", 500 );
-      return;
+        console.log("Err: ", err);
+        Utils.apiResponse( res, false, "Error retrieving requests for shipper", 500 );
+        return;
     }
 
     console.log("docs: ", docs);
@@ -45,12 +45,12 @@ router.post('/porter', function( req, res, next ){
   }, function( err, docs ){
 
     if( err ){
-      Utils.apiResponse( res, false, "Error retrieving this requests for porters", 500 );
-      return;
+        console.log("Err: ", err);
+        Utils.apiResponse( res, false, "Error retrieving this requests for porters", 500 );
+        return;
     }
 
-      console.log("RESULT",docs);
-    Utils.apiResponse( res, true, docs, 200 );
+      Utils.apiResponse( res, true, docs, 200 );
 
   });
 
@@ -70,8 +70,9 @@ router.post('/porter/finished', function( req, res, next ){
   }, function( err, docs ){
 
     if( err ){
-      Utils.apiResponse( res, false, "Error retrieving this requests for porters", 500 );
-      return;
+        console.log("Err: ", err);
+        Utils.apiResponse( res, false, "Error retrieving this requests for porters", 500 );
+        return;
     }
 
     Utils.apiResponse( res, true, docs, 200 );
@@ -94,8 +95,9 @@ router.post('/porter/accept', function( req, res, next ){
   }, function( err, updateAck ){
 
     if( err ){
-      Utils.apiResponse( res, false, "Error accepting this request for porter", 500 );
-      return;
+        console.log("Err: ", err);
+        Utils.apiResponse( res, false, "Error accepting this request for porter", 500 );
+        return;
     }
 
     var docModified = updateAck.nModified;

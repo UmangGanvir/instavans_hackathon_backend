@@ -153,9 +153,10 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         }
     ]).exec(function( err, res ){
 
-        //for(var i=0; i<res.length; i++){
-        //    res[i].arrivalTimestamp = res[i].arrivalTime.getTime();
-        //}
+        for(var i=0; i<res.length; i++){
+            res[i].arrivalTimestamp = res[i].arrivalTime.getTime();
+            res[i].unloadCompleteTimestamp = res[i].unloadCompleteTime.getTime();
+        }
         cb( err,res );
 
     });

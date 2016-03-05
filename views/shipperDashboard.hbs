@@ -61,31 +61,84 @@
     <div class="row">
         <header>
 
-            <div class="header-head">
-                <a href="/">Shipper Dashboard</a>
-            </div>
+            <div class="col-xs-12">
+                <div class="header-head">
+                    <a href="/">Shipper Dashboard</a>
+                </div>
 
-            <div class="header-navigation pull-right">
+                <div class="header-navigation pull-right">
 
-                <form class="form-inline" onsubmit="return false;">
-                    <div class="form-group">
+                    <form class="form-inline" onsubmit="return false;">
+                        <div class="form-group">
 
-                        <label for="name">Select Shipper : </label>&nbsp;&nbsp;&nbsp;
+                            <label for="name">Select Shipper : </label>&nbsp;&nbsp;&nbsp;
 
-                        <select id="creator" class="form-control">
-                            <option value="0">Please select a Shipper</option>
-                            <option value="1">Shipper 1</option>
-                            <option value="2">Shipper 2</option>
-                            <option value="3">Shipper 3</option>
-                        </select>&nbsp;&nbsp;&nbsp;
+                            <select id="creator" class="form-control">
+                                <option value="0">Please select a Shipper</option>
+                                <option value="1">Shipper 1</option>
+                                <option value="2">Shipper 2</option>
+                                <option value="3">Shipper 3</option>
+                            </select>&nbsp;&nbsp;&nbsp;
 
-                        <button id="openCreateRequestBtn" class="btn btn-default" type="submit">Create Request</button>
-                    </div>
-                </form>
+                            <button id="openCreateRequestBtn" class="btn btn-default" type="submit">Create Request</button>
+                        </div>
+                    </form>
 
+                </div>
             </div>
 
         </header>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="request-header">
+                <h2>All requests for this shipper -</h2>
+            </div>
+
+
+
+            <div class="row" id="requests_container">
+
+                <script id="request_container_hbs" type="text/x-handlebars-template">​
+
+                    <div class="col-xs-4 col-sm-3 request-container" data-job-id="\{{jobId}}">
+
+                        <div class="request-attr-container">
+                            <span class="request-attr-name">Required Porters : </span>
+                            <span class="request-attr-value request-porter-required pull-right">\{{portersRequired}}</span>
+                        </div>
+
+                        <hr/>
+
+                        <div class="request-attr-container">
+                            <span class="request-attr-name">Job Id : </span>
+                            <span class="request-attr-value pull-right">\{{jobId}}</span>
+                        </div>
+
+                        <div class="request-attr-container">
+                            <span class="request-attr-name">Arrival Time : </span>
+                            <span class="request-attr-value pull-right">\{{arrivalTimeString}}</span>
+                        </div>
+
+                        <div class="request-attr-container">
+                            <span class="request-attr-name">Amount Offered : </span>
+                            <span class="request-attr-value pull-right">\{{amountOffered}}</span>
+                        </div>
+
+                        <div class="request-attr-container">
+                            <span class="request-attr-name">Location : </span>
+                            <span class="request-attr-value pull-right">\{{locationText}}</span>
+                        </div>
+
+                    </div>
+
+                ​</script>
+
+            </div>
+
+        </div>
     </div>
 
 </div>

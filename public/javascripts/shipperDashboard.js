@@ -8,9 +8,43 @@ function getTimeInSecs(clockStr){
     return secs;
 }
 
+var requestTemplate;
+
 $(document).ready(function(){
 
     //$('#create_request_modal').modal('show');
+
+    requestTemplate = Handlebars.compile( $('#request_container_hbs').html().replace(/[\u200B]/g, '') );
+    $('#creator').on('change', function(){
+        creator = this.value;
+        $.ajax({
+            url: '/api/porter-request/shipper',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json",
+            data: JSON.stringify({
+                userId: this.value
+            }),
+            success: function(response) {
+                console.log("resp: ", response);
+                if( response.status == "success" ){
+
+                    $('.request-container').remove();
+                    var requests = response.result;
+                    requests.forEach(function( request ){
+                        console.log(request);
+                        request.arrivalTimeString =
+                            (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
+                            (new Date(request.arrivalTimestamp)).toDateString();
+                        $('#requests_container').append( requestTemplate(request) );
+                    });
+
+                } else {
+                    console.log("Err: ", response.message);
+                }
+            }
+        });
+    });
 
     $('.clockpicker').clockpicker();
 
@@ -48,6 +82,7 @@ $(document).ready(function(){
 
     var lat = null;
     var long = null;
+    var locationText = null;
 
     $('#location_select_input').on('typeahead:selected', function(evt, item) {
 
@@ -55,6 +90,7 @@ $(document).ready(function(){
         //console.log("item: ", item);
         lat = item.geometry.location.lat;
         long = item.geometry.location.lng;
+        locationText = item.formatted_address;
     });
 
     $('#user_select_email').css('vertical-align','middle');
@@ -83,6 +119,16 @@ $(document).ready(function(){
 
         if( creator == "0" ){
             raiseError("No shipper selected for transaction");
+            return;
+        }
+
+        if( !lat || !long ){
+            raiseError("No location selected. ( Lat, Long not received )");
+            return;
+        }
+
+        if( !locationText || locationText.length == 0 ){
+            raiseError("No location selected. ( Location text not received )");
             return;
         }
 
@@ -128,6 +174,8 @@ $(document).ready(function(){
             }
         });
     });
+
+
 });
 
 function raiseError( msg ){

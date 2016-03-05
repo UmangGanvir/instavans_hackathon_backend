@@ -15,8 +15,16 @@ var PorterRequest = new Schema({
         index: { type: '2dsphere' },
         required: true
     }, // longitude, latitude
+    locationText: { type: String, required: true },
     portersRequired: { type: Number, required: true },
     portersFulfilled: { type: [String], default: [] }         // Porter User Ids
+},{
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    }
 });
 
 PorterRequest.virtual('arrivalTimestamp').get(function() {
@@ -30,6 +38,7 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     var creator = params.creator;
     var lat = params.lat;
     var long = params.long;
+    var locationText = params.locationText;
     var portersRequired = params.portersRequired;
     // Default portersFulfilled
 
@@ -57,11 +66,17 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     }
     long = parseInt( long );
 
+    if( !locationText || locationText.length == 0 ){
+        cb( "Invalid Location Text" );
+        return;
+    }
+
     this.create({
         arrivalTime: arrivalTime,
         amountOffered: amountOffered,
         creator: creator,
         location : [ long, lat ], // longitude, latitude
+        locationText: locationText,
         portersRequired: portersRequired
     }, cb);
 };
@@ -76,7 +91,7 @@ PorterRequest.statics.fetchPorterRequestsForShipper = function( params, cb ){
         return;
     }
 
-    this.find({ creator: userId }).lean().exec(cb);
+    this.find({ creator: userId }).exec(cb);
 };
 
 PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
@@ -123,9 +138,9 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         }
     ]).exec(function( err, res ){
 
-        for(var i=0; i<res.length; i++){
-            res[i].arrivalTimestamp = res[i].arrivalTime.getTime();
-        }
+        //for(var i=0; i<res.length; i++){
+        //    res[i].arrivalTimestamp = res[i].arrivalTime.getTime();
+        //}
         cb( err,res );
 
     });

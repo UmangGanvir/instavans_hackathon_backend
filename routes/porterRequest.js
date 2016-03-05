@@ -5,6 +5,28 @@ var socketClient = require('../clients/socketClient.js');
 
 var PorterRequestModel = require('../models/porter_request');
 
+router.post('/shipper', function( req, res, next ){
+
+  var params = Utils.retrieveRequestParams( req );
+  console.log("Retrieve porter requests for porter params: ", params);
+
+  var userId  = params.post.userId;
+
+  PorterRequestModel.fetchPorterRequestsForShipper({
+    userId: userId
+  }, function( err, docs ){
+
+    if( err ){
+      Utils.apiResponse( res, false, "Error retrieving requests for shipper", 500 );
+      return;
+    }
+
+    Utils.apiResponse( res, true, docs, 200 );
+
+  });
+
+});
+
 router.post('/porter', function( req, res, next ){
 
   var params = Utils.retrieveRequestParams( req );
@@ -14,7 +36,7 @@ router.post('/porter', function( req, res, next ){
   var long  = params.post.long;
   var radius  = params.post.radius;
 
-  PorterRequestModel.fetchPorterRequestsForPorter( {
+  PorterRequestModel.fetchPorterRequestsForPorter({
     lat: lat,
     long: long,
     radius: radius

@@ -9,6 +9,7 @@ var PorterRequest = new Schema({
     //jobId: { type: Number, required: true },      // auto increment handles this
     reachTime: { type: Date, required: true },
     amountOffered: { type: Number, required: true },
+    creator: { type: String, required: true },
     location : {
         type: [Number],
         index: { type: '2dsphere' },
@@ -54,6 +55,19 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
     }, cb);
 };
 
+PorterRequest.statics.fetchPorterRequestsForShipper = function( params, cb ){
+
+    var userId = params.userId;
+
+    // Validity checks
+    if( !userId || userId.length == 0 ){
+        cb( "Invalid User Id value" );
+        return;
+    }
+
+    this.find({ creator: userId }).lean().exec(cb);
+};
+
 PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
 
     var lat = params.lat;
@@ -75,10 +89,14 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
 
     radius = !isNaN( parseInt( radius ) ) ? parseInt( radius ) : 10000 ; // in Meters
 
+    var date = new Date();
+    var dateWindow = new Date();
+    dateWindow.setHours( date.getHours() - 2 );     // 2 hour window
+
     this.aggregate([
         { $match: {
             'portersRequired': { $gt : 0} },
-            'reachTime' : { $lt: new Date() }
+            'reachTime' : { $gt: dateWindow, $lt: date }
         },
         {
             $geoNear: {

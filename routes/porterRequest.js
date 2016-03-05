@@ -36,12 +36,15 @@ router.post('/porter', function( req, res, next ){
 
   var lat  = params.post.lat;
   var long  = params.post.long;
+    var userId = params.post.userId;
   var radius  = params.post.radius;
 
   PorterRequestModel.fetchPorterRequestsForPorter({
     lat: lat,
     long: long,
-    radius: radius
+    radius: radius,
+      userId:userId
+
   }, function( err, docs ){
 
     if( err ){

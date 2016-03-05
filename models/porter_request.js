@@ -100,6 +100,7 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
 
     var lat = params.lat;
     var long = params.long;
+    var userId = params.userId;
     var radius = params.radius;
 
     // Validity checks
@@ -133,6 +134,7 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         {
             $match: {
                 'portersRequired': { $gt: 0 },
+                'portersFulfilled': {$ne : userId},
                 'arrivalTime' : { $gt: date, $lt: dateWindow }
             }
         }

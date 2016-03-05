@@ -156,7 +156,8 @@ PorterRequest.statics.fetchPorterFulfilledRequestsForPorter = function( params, 
         return;
     }
 
-    this.find({ portersFulfilled: { $in: userId } }).lean().exec(cb);
+
+    this.find({ portersFulfilled: userId }).lean().exec(cb);
 };
 
 PorterRequest.statics.AcceptRequestFromPorter = function( params, cb ){

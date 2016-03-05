@@ -48,6 +48,7 @@ router.post('/porter', function( req, res, next ){
       return;
     }
 
+      console.log("RESULT",docs);
     Utils.apiResponse( res, true, docs, 200 );
 
   });

@@ -6,10 +6,23 @@ function SocketClient() {
 
 SocketClient.prototype.initializeSocket = function( app ){
 
-    var httpServer = require('http').Server(app);
-    var io = require('socket.io')(httpServer,{path: '/socket.io','heartbeat interval':15, 'heartbeat timeout':40});
+    var io  = require('socket.io');
+    var server = io.listen(4000);
+    server.sockets.on("connection",function(){
+        console.log("COLLNN");
+    });
 
-    this.requestNamespace = io.of( '/' + requestNamespaceName );
+//
+//    var httpServer = require('http').Server(app);
+//    var io = require('socket.io')(httpServer,{path: '/socket.io','heartbeat interval':15, 'heartbeat timeout':40});
+////    var io = require('socket.io')(httpServer);
+//
+//    io.on('connection', function(socket){
+//        console.log('a user connected');
+//    });
+
+
+    this.requestNamespace = server.of( '/' + requestNamespaceName );
 
     this.requestNamespace.on('connection', function( socket ){
         console.log("Namespace: " + requestNamespaceName + " ---  Client-socket connected : ", socket.id);
@@ -23,6 +36,7 @@ SocketClient.prototype.initializeSocket = function( app ){
         //    socket.broadcast.emit('request', message);
         //});
     });
+
 };
 
 module.exports = new SocketClient();

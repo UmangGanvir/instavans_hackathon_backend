@@ -81,6 +81,11 @@ $(document).ready(function(){
             return;
         }
 
+        if( creator == "0" ){
+            raiseError("No shipper selected for transaction");
+            return;
+        }
+
         if( isNaN( parseInt( portersRequired ) ) ){
             raiseError("Number of porters is not mentioned");
             return;
@@ -99,7 +104,7 @@ $(document).ready(function(){
             data: JSON.stringify({
                 arrivalTimestamp: arrivalTimestamp,
                 amountOffered: parseInt( amountOffered ),
-                creator: 'a',
+                creator: creator,
                 lat: lat,
                 long: long,
                 portersRequired: parseInt( portersRequired )
@@ -109,6 +114,13 @@ $(document).ready(function(){
                 if( response.result ){
                     raiseSuccess(function(){
                         $('#create_request_modal').modal('hide');
+
+                        // clear form data
+                        $('#arrivalDay').val('');
+                        $('#arrivalDaySeconds').val('');
+                        $('#amountOffered').val('');
+                        $('#portersRequired').val('');
+                        $('#location_select_input').val('');
                     });
                 } else {
                     raiseError( response.message );

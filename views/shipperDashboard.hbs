@@ -67,15 +67,19 @@
 
             <div class="header-navigation pull-right">
 
-                <form class="form-inline">
+                <form class="form-inline" onsubmit="return false;">
                     <div class="form-group">
-                        <label for="name">Select Shipper : </label>
+
+                        <label for="name">Select Shipper : </label>&nbsp;&nbsp;&nbsp;
+
                         <select id="creator" class="form-control">
                             <option value="0">Please select a Shipper</option>
                             <option value="1">Shipper 1</option>
                             <option value="2">Shipper 2</option>
                             <option value="3">Shipper 3</option>
-                        </select>
+                        </select>&nbsp;&nbsp;&nbsp;
+
+                        <button id="openCreateRequestBtn" class="btn btn-default" type="submit">Create Request</button>
                     </div>
                 </form>
 

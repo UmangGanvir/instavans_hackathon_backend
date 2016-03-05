@@ -11,7 +11,8 @@ router.get('/', function( req, res, next ){
     stylesheets : [
         "/stylesheets/utils/bootstrap-clockpicker.min.css",
         "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css",
-        "/stylesheets/utils/typeahead.css"
+        "/stylesheets/utils/typeahead.css",
+        "/stylesheets/shipperDashboard.css"
         //"https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css"
     ],
     javascripts: [

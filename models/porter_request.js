@@ -121,10 +121,12 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
                 'arrivalTime' : { $gt: date, $lt: dateWindow }
             }
         }
-    ]).exec(function(e,r){
-        //console.log("e:", e);
-        //console.log("r:", r);
-        cb(e,r);
+    ]).exec(function( err, res ){
+
+        for(var i=0; i<res.length; i++){
+            res[i].arrivalTimestamp = res[i].arrivalTime.getTime();
+        }
+        cb( err,res );
 
     });
 };

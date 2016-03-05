@@ -10,7 +10,7 @@ function getTimeInSecs(clockStr){
 
 $(document).ready(function(){
 
-    $('#create_request_modal').modal('show');
+    //$('#create_request_modal').modal('show');
 
     $('.clockpicker').clockpicker();
 

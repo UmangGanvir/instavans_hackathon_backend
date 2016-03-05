@@ -26,13 +26,12 @@ $(document).ready(function(){
                 userId: this.value
             }),
             success: function(response) {
-                console.log("resp: ", response);
+                //console.log("resp: ", response);
                 if( response.status == "success" ){
 
                     $('.request-container').remove();
                     var requests = response.result;
                     requests.forEach(function( request ){
-                        console.log(request);
                         request.arrivalTimeString =
                             (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
                             (new Date(request.arrivalTimestamp)).toDateString();
@@ -153,6 +152,7 @@ $(document).ready(function(){
                 creator: creator,
                 lat: lat,
                 long: long,
+                locationText: locationText,
                 portersRequired: parseInt( portersRequired )
             }),
             success: function(response) {

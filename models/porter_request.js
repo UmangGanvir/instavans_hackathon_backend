@@ -58,13 +58,13 @@ PorterRequest.statics.createPorterRequestCRUD = function( params, cb ){
         cb( "Invalid latitude value" );
         return;
     }
-    lat = parseInt( lat );
+    lat = Number( lat );
 
     if( !long || isNaN( parseInt( long ) ) ){
         cb( "Invalid Longitude value" );
         return;
     }
-    long = parseInt( long );
+    long = Number( long );
 
     if( !locationText || locationText.length == 0 ){
         cb( "Invalid Location Text" );

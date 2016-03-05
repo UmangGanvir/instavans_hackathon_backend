@@ -8,6 +8,10 @@ function getTimeInSecs(clockStr){
     return secs;
 }
 
+var socket = io.connect( "http://localhost" + '/' + "request", {
+    path: '/socket.io'
+});
+
 var requestTemplate;
 
 $(document).ready(function(){

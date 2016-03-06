@@ -119,50 +119,52 @@
         <div class="col-xs-12">
 
             <div class="request-header">
-                <h2>All requests for this shipper -</h2>
+                <h2>All requests for current shipper</h2>
             </div>
 
-
+            <hr/>
 
             <div class="row" id="requests_container">
 
                 <script id="request_container_hbs" type="text/x-handlebars-template">​
 
-                    <div class="col-xs-6 col-sm-4 col-lg-3 request-container" data-job-id="\{{jobId}}">
+                    <div class="col-xs-12 col-sm-6 col-lg-4 request-container" data-job-id="\{{jobId}}">
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Required Porters : </span>
-                            <span class="request-attr-value request-porter-required pull-right">\{{portersRequired}}</span>
-                        </div>
+                        <div class="request-internal-wrapper">
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Required Porters : </span>
+                                <span class="request-attr-value request-porter-required pull-right">\{{portersRequired}}</span>
+                            </div>
 
-                        <hr/>
+                            <hr/>
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Job Id : </span>
-                            <span class="request-attr-value pull-right">\{{jobId}}</span>
-                        </div>
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Job Id : </span>
+                                <span class="request-attr-value pull-right">\{{jobId}}</span>
+                            </div>
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Arrival Time : </span>
-                            <span class="request-attr-value pull-right">\{{arrivalTimeString}}</span>
-                            <br/>
-                        </div>
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Arrival Time : </span>
+                                <span class="request-attr-value pull-right">\{{arrivalTimeString}}</span>
+                                <br/>
+                            </div>
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Unload Complete Time : </span>
-                            <span class="request-attr-value pull-right">\{{unloadCompleteTimeString}}</span>
-                            <br/>
-                        </div>
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Unload Complete Time : </span>
+                                <span class="request-attr-value pull-right">\{{unloadCompleteTimeString}}</span>
+                                <br/>
+                            </div>
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Amount Offered : </span>
-                            <span class="request-attr-value pull-right">\{{amountOffered}}</span>
-                        </div>
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Amount Offered : </span>
+                                <span class="request-attr-value pull-right">\{{amountOffered}}</span>
+                            </div>
 
-                        <div class="request-attr-container">
-                            <span class="request-attr-name">Location : </span>
-                            <span class="request-attr-value pull-right">\{{locationText}}</span>
-                            <br/>
+                            <div class="request-attr-container">
+                                <span class="request-attr-name">Location : </span>
+                                <span class="request-attr-value pull-right">\{{locationText}}</span>
+                                <br/>
+                            </div>
                         </div>
 
                     </div>

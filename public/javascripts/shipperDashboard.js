@@ -235,13 +235,11 @@ function refreshRequestsForShipper( shipperId ){
                 $('.request-container').remove();
                 var requests = response.result;
                 requests.forEach(function( request ){
-                    console.log("request: ", request);
-                    request.arrivalTimeString =
-                        (new Date(request.arrivalTimestamp)).toLocaleTimeString() + " - " +
-                        (new Date(request.arrivalTimestamp)).toDateString();
-                    request.unloadCompleteTimeString =
-                        (new Date(request.unloadCompleteTimestamp)).toLocaleTimeString() + " - " +
-                        (new Date(request.unloadCompleteTimestamp)).toDateString();
+                    //console.log("request: ", request);
+
+                    request.arrivalTimeString = moment( request.arrivalTimestamp, 'x').format("hh:mm a DD MMM YYYY");
+                    request.unloadCompleteTimeString = moment( request.unloadCompleteTimestamp, 'x').format("hh:mm a DD MMM YYYY");
+
                     $('#requests_container').append( requestTemplate(request) );
                 });
 

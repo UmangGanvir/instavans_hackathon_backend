@@ -33,7 +33,15 @@ router.post('/update/location', function( req, res, next){
     var params = Utils.retrieveRequestParams( req );
     console.log("Update porter location: ", params);
 
-    UserModel.fetchNearByPorters( {}, function( err, docs ){
+    var lat = params.post.lat;
+    var long = params.post.long;
+    var userId = params.post.userId;
+
+    UserModel.updatePorterLocation({
+        lat: lat,
+        long: long,
+        userId: userId
+    }, function( err, docs ){
 
         if( err ){
             console.log("err: ", err);

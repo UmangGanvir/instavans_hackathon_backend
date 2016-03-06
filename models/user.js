@@ -30,6 +30,16 @@ User.statics.readUserCRUDbyName = function( params, cb ){
     name = name.toLowerCase();
     this.findOne({ name : name }).lean().exec(cb);
 };
+User.statics.readUserCRUDbyId = function( params, cb ){
+
+    var userId = params.userId;
+    if( !userId || userId.length == 0 ){
+        cb( "Invalid userId" );
+        return;
+    }
+
+    this.findOne({ userId : userId }).lean().exec(cb);
+};
 
 User.statics.fetchNearByPorters = function( params, cb ){
 

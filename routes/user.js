@@ -3,6 +3,7 @@ var router = express.Router();
 var Utils = require('../utils');
 
 var UserModel = require('../models/user');
+var PorterRequestModel = require('../models/porter_request');
 
 router.post('/', function( req, res, next ){
 
@@ -72,5 +73,55 @@ router.post('/near-porter', function( req, res, next ){
     });
 
 });
+
+router.post('/mydata', function( req, res, next ){
+
+    var params = Utils.retrieveRequestParams( req );
+    var userId = params.post.userId;
+    console.log("Retrieve nearby porters params: ", params);
+
+    UserModel.readUserCRUDbyId({userId : userId}, function( err, doc ){
+
+        if( err ){
+            console.log("err: ", err);
+            Utils.apiResponse( res, false, "Error retrieving user by Id", 500 );
+            return;
+        }
+        if(!doc){
+            Utils.apiResponse( res, false, "User does not exists", 400 );
+            return;
+        }
+
+
+
+        PorterRequestModel.fetchPorterFulfilledRequestsForPorter( {
+            userId: userId
+        }, function( err, docs ){
+
+            if( err ){
+                console.log("Err: ", err);
+                Utils.apiResponse( res, false, "Error retrieving fulfilled requests for porter", 500 );
+                return;
+            }
+            console.log("RETURN",docs);
+            var score = 0;
+            docs.forEach(function(doc2){
+                score+=doc2.amountOffered;
+            });
+
+            Utils.apiResponse( res, true, {
+                score : score,
+                name : doc.name
+            }, 200 );
+
+        });
+
+
+
+
+    });
+
+});
+
 
 module.exports = router;

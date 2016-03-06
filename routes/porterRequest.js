@@ -53,12 +53,50 @@ router.post('/porter', function( req, res, next ){
             return;
         }
 
-        console.log("RETURN",docs);
-        Utils.apiResponse( res, true, docs, 200 );
+
+        PorterRequestModel.fetchPorterFulfilledRequestsForPorter( {
+            userId: userId
+        }, function( err2, docs2 ){
+
+            if( err2 ){
+                console.log("Err: ", err2);
+                Utils.apiResponse( res, false, "Error retrieving fulfilled requests for porter", 500 );
+                return;
+            }
+
+
+            docs =  removeIntersect(docs,docs2);
+            console.log("RETURN",docs);
+            Utils.apiResponse( res, true, docs, 200 );
+
+        });
+
+
 
     });
 
 });
+
+function removeIntersect(arr1,arr2){
+    var res = [];
+    arr1.forEach(function(doc1){
+        var remove = false;
+        arr2.forEach(function(doc2){
+
+            //intersect
+            if(doc1.arrivalTime>=doc2.arrivalTime&&doc1.arrivalTime<=doc2.unloadCompleteTime) remove = true;
+            if(doc2.arrivalTime>=doc1.arrivalTime&&doc2.arrivalTime<=doc1.unloadCompleteTime) remove = true;
+
+
+            if(doc1.arrivalTime>=doc2.arrivalTime&&doc1.unloadCompleteTime<=doc2.unloadCompleteTime) remove = true;
+            if(doc2.arrivalTime>=doc1.arrivalTime&&doc2.unloadCompleteTime<=doc1.unloadCompleteTime) remove = true;
+
+
+        });
+        if(!remove) res.push(doc1);
+    });
+    return res;
+}
 
 router.post('/porter/finished', function( req, res, next ){
 

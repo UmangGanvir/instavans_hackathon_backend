@@ -146,16 +146,26 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
                 near: { type: "Point", coordinates: [ long, lat ] },
                 distanceField: "distance",
                 maxDistance: radius,
-                spherical: true
+                spherical: true,
+                query : {
+                    'portersRequired': { $gt: 0 },
+                    'portersFulfilled': {$ne : userId},
+                    'arrivalTime' : { $gt: date}
+                }
             }
         },
-        {
-            $match: {
-                'portersRequired': { $gt: 0 },
-                'portersFulfilled': { $ne : userId },
-                'arrivalTime' : { $gt: date, $lt: dateWindow }
-            }
-        }
+
+
+
+    { $project:{"portersRequired":1,"portersFulfilled":1,"jobId":1,"amountOffered":1,"arrivalTime":1,"unloadCompleteTime":1,"locationText":1,"location":1,"creator":1,
+            "sort_field":{ $add: [ "$distance","$arrivalTime"]}
+        }},
+        { $sort: { 'sort_field': -1 } }
+//        {
+//            $match: {
+//                'arrivalTime' : { $gt: date, $lt: dateWindow }
+//            }
+//        }
     ]).exec(function( err, res ){
 
         for(var i=0; i<res.length; i++){

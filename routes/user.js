@@ -3,9 +3,7 @@ var router = express.Router();
 var Utils = require('../utils');
 
 var UserModel = require('../models/user');
-/* Model ( Handling ) */
 
-// Kid
 router.post('/', function( req, res, next ){
 
   var params = Utils.retrieveRequestParams( req );
@@ -27,6 +25,43 @@ router.post('/', function( req, res, next ){
     Utils.apiResponse( res, true, doc, 200 );
 
   });
+
+});
+
+router.post('/update/location', function( req, res, next){
+
+    var params = Utils.retrieveRequestParams( req );
+    console.log("Update porter location: ", params);
+
+    UserModel.fetchNearByPorters( {}, function( err, docs ){
+
+        if( err ){
+            console.log("err: ", err);
+            Utils.apiResponse( res, false, "Error retrieving near by porters", 500 );
+            return;
+        }
+
+        Utils.apiResponse( res, true, docs, 200 );
+
+    });
+});
+
+router.post('/near-porter', function( req, res, next ){
+
+    var params = Utils.retrieveRequestParams( req );
+    console.log("Retrieve nearby porters params: ", params);
+
+    UserModel.fetchNearByPorters({}, function( err, docs ){
+
+        if( err ){
+            console.log("err: ", err);
+            Utils.apiResponse( res, false, "Error retrieving near by porters", 500 );
+            return;
+        }
+
+        Utils.apiResponse( res, true, docs, 200 );
+
+    });
 
 });
 

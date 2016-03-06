@@ -20,5 +20,9 @@
     {{#each javascripts }}
         <script src="{{{this}}}"></script>
     {{/each}}
+
+    {{#each asyncDeferJavascripts }}
+        <script async defer src="{{{this}}}"></script>
+    {{/each}}
   </body>
 </html>

@@ -1,0 +1,49 @@
+header {
+    /*height: 50px;*/
+    background-color: #2A303C;
+    color: #fff;
+}
+
+.header-head {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 22px;
+    padding: 9px;
+}
+
+.header-head a {
+    color: #fff;
+}
+
+.header-navigation {
+    padding: 8px;
+}
+
+/*  Request Containers  */
+.request-container {
+    border: 2px solid #777;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.request-attr-container {
+    display: inline-block;
+    width: 100%;
+}
+
+.request-attr-name {
+    font-weight: 700;
+}
+
+.request-porter-required {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #2A303C;
+    color: #fff;
+}
+
+/* Map */
+#nearByPortersMap {
+    height: 400px;
+}

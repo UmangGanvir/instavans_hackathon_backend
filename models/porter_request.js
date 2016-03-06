@@ -129,6 +129,11 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
     }
     long = Number( long );
 
+    if( !userId || userId.length == 0 ){
+        cb( "Invalid userId passed" );
+        return;
+    }
+
     radius = !isNaN( parseInt( radius ) ) ? parseInt( radius ) : 10000 ; // in Meters
 
     var date = new Date();
@@ -147,7 +152,7 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
         {
             $match: {
                 'portersRequired': { $gt: 0 },
-                'portersFulfilled': {$ne : userId},
+                'portersFulfilled': { $ne : userId },
                 'arrivalTime' : { $gt: date, $lt: dateWindow }
             }
         }

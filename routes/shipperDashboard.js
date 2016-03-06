@@ -29,4 +29,23 @@ router.get('/', function( req, res, next ){
 
 });
 
+router.get('/near-by-porters', function( req, res, next ){
+
+    var params = Utils.retrieveRequestParams( req );
+    console.log("Nearby porters route for shipper dashboard params: ", params);
+
+    res.render('nearByPorters', {
+        stylesheets : [
+            "/stylesheets/nearByPorters.css"
+        ],
+        javascripts: [
+            "/javascripts/nearByPorters.js"
+        ],
+        asyncDeferJavascripts: [
+            "https://maps.googleapis.com/maps/api/js?key=AIzaSyB7e_-ZwIt57J6ac6bjOBbgreLxk-pScw0&callback=initMap"
+        ]
+    });
+
+});
+
 module.exports = router;

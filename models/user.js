@@ -30,6 +30,17 @@ User.statics.readUserCRUDbyName = function( params, cb ){
     name = name.toLowerCase();
     this.findOne({ name : name }).lean().exec(cb);
 };
+User.statics.createUserCRUDbyName = function( params, cb ){
+
+    var name = params.name;
+    if( !name || name.length == 0 ){
+        cb( "Invalid Name" );
+        return;
+    }
+
+    name = name.toLowerCase();
+    this.findOne({ name : name }).lean().exec(cb);
+};
 User.statics.readUserCRUDbyId = function( params, cb ){
 
     var userId = params.userId;

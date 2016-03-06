@@ -10,20 +10,26 @@ router.post('/', function( req, res, next ){
   var params = Utils.retrieveRequestParams( req );
   console.log("Retrieve users params: ", params);
 
-  var name  = params.post.name;
-  if( !name || name.length == 0 ){
-    Utils.apiResponse( res, false, "No name mentioned", 400 );
+  var userId  = params.post.userId;
+  if( !userId || userId.length == 0 ){
+    Utils.apiResponse( res, false, "No userId mentioned", 400 );
     return;
   }
 
-  UserModel.readUserCRUDbyName( { name: name }, function( err, doc ){
+  UserModel.readUserCRUDbyId( { userId: userId }, function( err, doc ){
 
     if( err ){
       Utils.apiResponse( res, false, "Error retrieving this user", 500 );
       return;
     }
 
-    Utils.apiResponse( res, true, doc, 200 );
+//      if(!doc){
+//
+//      }else{
+
+        Utils.apiResponse( res, true, doc, 200 );
+//      }
+
 
   });
 
@@ -103,7 +109,7 @@ router.post('/mydata', function( req, res, next ){
                 Utils.apiResponse( res, false, "Error retrieving fulfilled requests for porter", 500 );
                 return;
             }
-            console.log("RETURN",docs);
+//            console.log("RETURN",docs);
             var score = 0;
             docs.forEach(function(doc2){
                 score+=doc2.amountOffered;

@@ -160,7 +160,7 @@ PorterRequest.statics.fetchPorterRequestsForPorter = function( params, cb ){
     { $project:{"portersRequired":1,"portersFulfilled":1,"jobId":1,"amountOffered":1,"arrivalTime":1,"unloadCompleteTime":1,"locationText":1,"location":1,"creator":1,
             "sort_field":{ $add: [ "$distance","$arrivalTime"]}
         }},
-        { $sort: { 'sort_field': -1 } }
+        { $sort: { 'sort_field': 1 } }
 //        {
 //            $match: {
 //                'arrivalTime' : { $gt: date, $lt: dateWindow }

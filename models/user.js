@@ -77,7 +77,7 @@ User.statics.fetchNearByPorters = function( params, cb ){
 
     var date = new Date();
     var dateWindow = new Date();
-    dateWindow.setHours( date.getHours() - 2 );     // 2 hour window
+    dateWindow.setHours( date.getHours() - 8 );     // 2 hour window
 
     this.aggregate([
         {

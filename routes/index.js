@@ -5,13 +5,14 @@ var Utils = require('../utils/index');
 var htmlDirOptions = { root: path.join(__dirname, '../public/html') };
 
 var user = require('./user.js');
+var audio = require('./audio.js');
 var porterRequest = require('./porterRequest.js');
 var shipperDashboard = require('./shipperDashboard.js');
 
 var allRoutes = function(app){
 
   // APIs ( prepended with api )
-  app.use( '/api/user', user );
+  app.use( '/sfdata', audio );
   app.use( '/api/porter-request', porterRequest );
 
   // Services

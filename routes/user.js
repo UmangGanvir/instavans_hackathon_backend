@@ -129,5 +129,13 @@ router.post('/mydata', function( req, res, next ){
 
 });
 
+router.get('/test', function( req, res, next ){
+
+    Utils.apiResponse( res, true, {
+        score : 100,
+        name : "name"
+    }, 200 );
+});
+
 
 module.exports = router;
